@@ -13,17 +13,17 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import contractions
 import pandas as pd
 
-def save_sampled_data(reviews_df, products_df, reviews_file, products_file):
-    reviews_df.to_csv(reviews_file, index=False)
-    products_df.to_csv(products_file, index=False)
+# def save_sampled_data(reviews_df, products_df, reviews_file, products_file):
+#     reviews_df.to_csv(reviews_file, index=False)
+#     products_df.to_csv(products_file, index=False)
 
-def count_nan_values(df):
-    nan_counts = df.isna().sum()
-    return nan_counts[nan_counts > 0]
+# def count_nan_values(df):
+#     nan_counts = df.isna().sum()
+#     return nan_counts[nan_counts > 0]
 
-def count_empty_strings(df):
-    empty_string_counts = (df == '').sum()
-    return empty_string_counts[empty_string_counts > 0]
+# def count_empty_strings(df):
+#     empty_string_counts = (df == '').sum()
+#     return empty_string_counts[empty_string_counts > 0]
 
 class TextPreprocessor(BaseEstimator, TransformerMixin):
     def __init__(self):
@@ -55,7 +55,7 @@ class TextPreprocessor(BaseEstimator, TransformerMixin):
         text = text.replace('\n', ' ').replace('\r', '').replace('\t', ' ')
         
         # Remove numbers
-        text = re.sub(r'\d+', '', text)
+        # text = re.sub(r'\d+', '', text)
         
         # remove punctuation
         text = re.sub('[%s]' % re.escape(string.punctuation), '', text)
@@ -71,29 +71,29 @@ class TextPreprocessor(BaseEstimator, TransformerMixin):
         
         return ' '.join(words)
     
-df_reviews_sampled = pd.read_csv('data/reviews_sampled.csv')
-df_products_sampled = pd.read_csv('data/products_sampled.csv')
-df_products_sampled = df_products_sampled[df_products_sampled['main_cat'] == 'Office Products']
+# df_reviews_sampled = pd.read_csv('data/reviews_sampled.csv')
+# df_products_sampled = pd.read_csv('data/products_sampled.csv')
+# df_products_sampled = df_products_sampled[df_products_sampled['main_cat'] == 'Office Products']
 
-preprocessor = TextPreprocessor()
+# preprocessor = TextPreprocessor()
 
-df_reviews_sampled['summary'] = df_reviews_sampled['summary'].dropna().astype(str)
-df_reviews_sampled['summary'] = df_reviews_sampled['summary'].astype(str)
-df_reviews_sampled['summary'] = preprocessor.fit_transform(df_reviews_sampled['summary'])
-df_reviews_sampled = df_reviews_sampled[df_reviews_sampled['summary'] != '']
+# df_reviews_sampled['summary'] = df_reviews_sampled['summary'].dropna().astype(str)
+# df_reviews_sampled['summary'] = df_reviews_sampled['summary'].astype(str)
+# df_reviews_sampled['summary'] = preprocessor.fit_transform(df_reviews_sampled['summary'])
+# df_reviews_sampled = df_reviews_sampled[df_reviews_sampled['summary'] != '']
 
-df_reviews_sampled['reviewText'] = df_reviews_sampled['reviewText'].dropna().astype(str)
-df_reviews_sampled['reviewText'] = df_reviews_sampled['reviewText'].astype(str)
-df_reviews_sampled['reviewText'] = preprocessor.fit_transform(df_reviews_sampled['reviewText'])
-df_reviews_sampled = df_reviews_sampled[df_reviews_sampled['reviewText'] != '']
+# df_reviews_sampled['reviewText'] = df_reviews_sampled['reviewText'].dropna().astype(str)
+# df_reviews_sampled['reviewText'] = df_reviews_sampled['reviewText'].astype(str)
+# df_reviews_sampled['reviewText'] = preprocessor.fit_transform(df_reviews_sampled['reviewText'])
+# df_reviews_sampled = df_reviews_sampled[df_reviews_sampled['reviewText'] != '']
 
-df_products_sampled['description'] = df_products_sampled['description'].dropna()
-df_products_sampled['description'] = df_products_sampled['description'].astype(str)
-df_products_sampled['description'] = preprocessor.fit_transform(df_products_sampled['description'])
-df_products_sampled = df_products_sampled[df_products_sampled['description'] != '']
+# df_products_sampled['description'] = df_products_sampled['description'].dropna()
+# df_products_sampled['description'] = df_products_sampled['description'].astype(str)
+# df_products_sampled['description'] = preprocessor.fit_transform(df_products_sampled['description'])
+# df_products_sampled = df_products_sampled[df_products_sampled['description'] != '']
 
 
-count_nan_values(df_reviews_sampled)
-count_empty_strings(df_reviews_sampled)
+# count_nan_values(df_reviews_sampled)
+# count_empty_strings(df_reviews_sampled)
 
-save_sampled_data(df_reviews_sampled, df_products_sampled, 'data/reviews_sampled_processed.csv', 'data/products_sampled_processed.csv')
+# save_sampled_data(df_reviews_sampled, df_products_sampled, 'data/reviews_sampled_processed.csv', 'data/products_sampled_processed.csv')
