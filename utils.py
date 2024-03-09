@@ -61,3 +61,15 @@ def seed_everything(seed=42):
     pd.set_option('display.max_rows', None)  # Display all rows in pandas DataFrames
     pd.set_option('display.width', None)  # Disable column width restriction
     pd.set_option('display.expand_frame_repr', False)  # Prevent line wrapping in pandas DataFrames
+    
+    
+def print_shapes(reviews_df, products_df):
+  print(f"Reviews df shape: {reviews_df.shape}")
+  print(f"Products df shape: {products_df.shape}")
+  
+def check_and_frop_duplicates(df, df_name):
+    print(f'Checking for duplicates for {df_name} ...')
+    print('Before:', df.shape)
+    df = df.drop_duplicates()
+    print('After:', df.shape)
+    return df
