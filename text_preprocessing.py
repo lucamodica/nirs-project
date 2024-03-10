@@ -13,18 +13,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import contractions
 import pandas as pd
 
-# def save_sampled_data(reviews_df, products_df, reviews_file, products_file):
-#     reviews_df.to_csv(reviews_file, index=False)
-#     products_df.to_csv(products_file, index=False)
-
-# def count_nan_values(df):
-#     nan_counts = df.isna().sum()
-#     return nan_counts[nan_counts > 0]
-
-# def count_empty_strings(df):
-#     empty_string_counts = (df == '').sum()
-#     return empty_string_counts[empty_string_counts > 0]
-
 class TextPreprocessor(BaseEstimator, TransformerMixin):
     def __init__(self):
         self.stop_words = set(stopwords.words('english'))

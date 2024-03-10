@@ -21,16 +21,21 @@ def getDF(path):
     
   return pd.DataFrame.from_dict(df, orient='index')
 
-def sample_data(reviews_df, products_df, min_reviews_count=10, max_users=1000, frac_sampled_products=0.1):
+def sample_data(reviews_df, products_df, min_reviews_count=10, max_users=1000, frac_products=0.1):
     # Sample a subset of users based on the number of reviews they have 
     user_reviews_count = reviews_df['reviewerID'].value_counts()
     selected_users = user_reviews_count[user_reviews_count >= min_reviews_count].index[:max_users]
     reviews_subset: pd.DataFrame = reviews_df[reviews_df['reviewerID'].isin(selected_users)]
-
-    # Sample a subset of products based on popularity or ratings
-    # You can use salesRank or overall ratings for this purpose
-    sampled_products: pd.DataFrame = products_df.sample(frac=frac_sampled_products, random_state=42)
-
+    
+    # Get all the products reviewed by the selected users
+    reviewed_products = reviews_subset['asin'].unique()
+    sampled_products: pd.DataFrame = products_df.sample(frac=frac_products, random_state=42)
+    
+    # Add the missing products that are reviewed
+    missing_products = set(reviewed_products) - set(sampled_products['asin'])
+    missing_products_df = products_df[products_df['asin'].isin(missing_products)]
+    sampled_products = pd.concat([sampled_products, missing_products_df])
+    
     return reviews_subset, sampled_products
 
 def count_nan_values(df):
@@ -67,9 +72,15 @@ def print_shapes(reviews_df, products_df):
   print(f"Reviews df shape: {reviews_df.shape}")
   print(f"Products df shape: {products_df.shape}")
   
+def print_shape(df, df_name):
+  print(f"{df_name} shape: {df.shape}")
+  
 def check_and_frop_duplicates(df, df_name):
     print(f'Checking for duplicates for {df_name} ...')
     print('Before:', df.shape)
     df = df.drop_duplicates()
     print('After:', df.shape)
     return df
+
+def save_data(df, file_path):
+    df.to_csv(file_path, index=False)
