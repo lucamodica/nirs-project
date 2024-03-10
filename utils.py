@@ -25,10 +25,10 @@ def sample_data(reviews_df, products_df, min_reviews_count=10, max_users=1000, f
     # Sample a subset of users based on the number of reviews they have 
     user_reviews_count = reviews_df['reviewerID'].value_counts()
     selected_users = user_reviews_count[user_reviews_count >= min_reviews_count].index[:max_users]
-    reviews_subset: pd.DataFrame = reviews_df[reviews_df['reviewerID'].isin(selected_users)]
+    sampled_reviews: pd.DataFrame = reviews_df[reviews_df['reviewerID'].isin(selected_users)]
     
     # Get all the products reviewed by the selected users
-    reviewed_products = reviews_subset['asin'].unique()
+    reviewed_products = sampled_reviews['asin'].unique()
     sampled_products: pd.DataFrame = products_df.sample(frac=frac_products, random_state=42)
     
     # Add the missing products that are reviewed
@@ -36,7 +36,11 @@ def sample_data(reviews_df, products_df, min_reviews_count=10, max_users=1000, f
     missing_products_df = products_df[products_df['asin'].isin(missing_products)]
     sampled_products = pd.concat([sampled_products, missing_products_df])
     
-    return reviews_subset, sampled_products
+    # Remove reviews of products missing in the sampled product dataset
+    sampled_reviews = sampled_reviews[
+      sampled_reviews['asin'].isin(sampled_products['asin'])]
+    
+    return sampled_reviews, sampled_products
 
 def count_nan_values(df):
     nan_counts = df.isna().sum()
