@@ -59,29 +59,3 @@ class TextPreprocessor(BaseEstimator, TransformerMixin):
         
         return ' '.join(words)
     
-# df_reviews_sampled = pd.read_csv('data/reviews_sampled.csv')
-# df_products_sampled = pd.read_csv('data/products_sampled.csv')
-# df_products_sampled = df_products_sampled[df_products_sampled['main_cat'] == 'Office Products']
-
-# preprocessor = TextPreprocessor()
-
-# df_reviews_sampled['summary'] = df_reviews_sampled['summary'].dropna().astype(str)
-# df_reviews_sampled['summary'] = df_reviews_sampled['summary'].astype(str)
-# df_reviews_sampled['summary'] = preprocessor.fit_transform(df_reviews_sampled['summary'])
-# df_reviews_sampled = df_reviews_sampled[df_reviews_sampled['summary'] != '']
-
-# df_reviews_sampled['reviewText'] = df_reviews_sampled['reviewText'].dropna().astype(str)
-# df_reviews_sampled['reviewText'] = df_reviews_sampled['reviewText'].astype(str)
-# df_reviews_sampled['reviewText'] = preprocessor.fit_transform(df_reviews_sampled['reviewText'])
-# df_reviews_sampled = df_reviews_sampled[df_reviews_sampled['reviewText'] != '']
-
-# df_products_sampled['description'] = df_products_sampled['description'].dropna()
-# df_products_sampled['description'] = df_products_sampled['description'].astype(str)
-# df_products_sampled['description'] = preprocessor.fit_transform(df_products_sampled['description'])
-# df_products_sampled = df_products_sampled[df_products_sampled['description'] != '']
-
-
-# count_nan_values(df_reviews_sampled)
-# count_empty_strings(df_reviews_sampled)
-
-# save_sampled_data(df_reviews_sampled, df_products_sampled, 'data/reviews_sampled_processed.csv', 'data/products_sampled_processed.csv')
